@@ -1,6 +1,6 @@
-# ColumnTool
+# ColumnMigrate
 
-**ColumnTool** is a lightweight Go CLI utility for safely migrating a column's data type in PostgreSQL without locking the entire table. It handles large table migrations by avoiding full-table writes and using a batched, trigger-based approach.
+**ColumnMigrate** is a lightweight Go CLI utility for safely migrating a column's data type in PostgreSQL without locking the entire table. It handles large table migrations by avoiding full-table writes and using a batched, trigger-based approach.
 
 ## Features
 
