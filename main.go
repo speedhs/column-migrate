@@ -17,6 +17,9 @@ func main() {
 	column := flag.String("column", "", "Column name to migrate")
 	newType := flag.String("type", "", "New data type (e.g. bigint)")
 	batchSize := flag.Int("batch", 1000, "Batch size for backfill")
+	pkColumn := flag.String("pk", "", "Primary key column for ordered backfill (optional)")
+	dryRun := flag.Bool("dry-run", false, "Print SQL and EXPLAIN, do not execute")
+	verbose := flag.Bool("verbose", false, "Verbose logging with timings")
 
 	flag.Parse()
 
@@ -38,6 +41,6 @@ func main() {
 	checkFatal(err, "DB ping")
 
 	// Start migration
-	err = runMigration(db, *schema, *table, *column, *newType, *batchSize)
+	err = runMigration(db, *schema, *table, *column, *newType, *batchSize, *pkColumn, *dryRun, *verbose)
 	checkFatal(err, "Migration process")
 }
