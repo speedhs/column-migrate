@@ -30,6 +30,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Sanitize type
+	sanitizedType, err := sanitizeDataType(*newType)
+	checkFatal(err, "Validate new type")
+
 	// Connect to the DB
 	fmt.Println("Connecting to database...")
 	db, err := sql.Open("postgres", *connStr)
@@ -40,7 +44,11 @@ func main() {
 	err = db.Ping()
 	checkFatal(err, "DB ping")
 
+	// Preflight checks
+	err = preflight(db, *schema, *table, *column, *pkColumn, sanitizedType, *verbose)
+	checkFatal(err, "Preflight checks")
+
 	// Start migration
-	err = runMigration(db, *schema, *table, *column, *newType, *batchSize, *pkColumn, *dryRun, *verbose)
+	err = runMigration(db, *schema, *table, *column, sanitizedType, *batchSize, *pkColumn, *dryRun, *verbose)
 	checkFatal(err, "Migration process")
 }
